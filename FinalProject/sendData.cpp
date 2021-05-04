@@ -1,23 +1,18 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <curl/curl.h>
 
-int main(void) {
+#include "appdev.h"
+
+void send_data(rock r) {
 	CURL* curl;
 	CURLcode res;
-	char postdata[100], name[30], project[50];
-	printf("Your name (no spaces): ");
-	scanf("%s", name);
-	printf("Your project: ");
-	scanf("%s", project);
-	sprintf(postdata, "name=%s&project=%s", name, project);
+	char postdata[100];
+	sprintf(postdata, "min=%d&max=%d&user=%s", r.min, r.max, r.rname);
 	/* In window, this will init the winsock stuff*/
 	curl_global_init(CURL_GLOBAL_ALL);
 
 	/* get a curl handle*/
 	curl = curl_easy_init();
 	if (curl) {
-		
+
 		curl_easy_setopt(curl, CURLOPT_URL, "http://www.cc.puv.fi/~e2000596/testCurl.php");
 		/* Now specify the POST data*/
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
@@ -29,5 +24,5 @@ int main(void) {
 		curl_easy_cleanup(curl);
 	}
 	curl_global_cleanup();
-	return 0;
+	
 }
